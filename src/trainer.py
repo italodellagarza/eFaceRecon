@@ -3,18 +3,22 @@
 from model import create_model
 import numpy as np
 import os
+from joblib import dump
 from person import Person
 from image_align import align_image
 import cv2 as cv
 from matplotlib import pyplot as plt
+from sklearn.svm import LinearSVC
+from sklearn.preprocessing import LabelEncoder
 
+'''Função para carregar uma imagem pelo OpenCV'''
 def load_image(path):
     img = cv.imread(path, 1)
     # OpenCV carrega as imagens no canal de cores
     # na ordem BGR. Então, é necessário invertê-las
     return img[...,::-1]
 
-
+'''Função para carregar as pessoas no dataset'''
 def load_persons(path):
     persons = []
     for i in os.listdir(path):
@@ -22,10 +26,14 @@ def load_persons(path):
             persons.append(Person(path, i, f))
     return np.array(persons)
 
-
+# Cria o modelo de rede neural Inception
 nn4_small2_pretrained = create_model()
-nn4_small2_pretrained.load_weights('weights/nn4.small2.v1.h5')
+# Carrega os pesos para essa rede neural já treinada
+nn4_small2_pretrained.load_weights('./weights/nn4.small2.v1.h5')
+# carrega as pessoas (faces) registradas no dataset
 persons = load_persons("dataset")
+
+# calcula o embedding vector utilizando a rede pré-treinada
 embedded = np.zeros((persons.shape[0], 128))
 
 for i, m in enumerate(persons):
@@ -36,18 +44,25 @@ for i, m in enumerate(persons):
     # obter os vetores embedding por imagem
     embedded[i] = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
 
-def distance(emb1, emb2):
-    return np.sum(np.square(emb1 - emb2))
 
-def show_pair(idx1, idx2):
-    plt.figure(figsize=(8,3))
-    #plt.suptitle(f'Distance = {distance(embedded[idx1], embedded[idx2]):.2f}')
-    plt.subplot(121)
-    plt.imshow(load_image(persons[idx1].image_path()))
-    plt.subplot(122)
-    plt.imshow(load_image(persons[idx2].image_path()));    
+# TODO treinar modelo de SVM e salvá-lo como arquivo
+targets = np.array([p.name for p in persons])
 
-show_pair(2, 3)
-show_pair(2, 12)
+# Transforma os nomes das pessoas em números
+encoder = LabelEncoder()
+encoder.fit(targets)
+y = encoder.transform(targets)
 
-# TODO salvar esse vetor de features extraído em um arquivo
+train_idx = np.arange(persons.shape[0]) % 2 != 0
+test_idx = np.arange(persons.shape[0]) % 2 == 0
+
+X_train = embedded[train_idx]
+X_test = embedded[test_idx]
+y_train = y[train_idx]
+y_test = y[test_idx]
+
+svc = LinearSVC()
+svc.fit(X_train, y_train)
+dump(svc, 'saved_model.joblib')
+
+# TODO utilizar extrator de features e KNN para reconhecimento 
