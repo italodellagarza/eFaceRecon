@@ -46,7 +46,7 @@ while 1:
     k = cv2.waitKey(100) & 0xff # Pressione 'ESC' para sair do vídeo
     if k == 27:
         break
-    elif count >= 30: # Pegue 30 amostras da face e interrompa o vídeo
+    elif count >= 50: # Pegue 30 amostras da face e interrompa o vídeo
          break
 
 # Do a bit of cleanup

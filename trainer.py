@@ -42,12 +42,18 @@ embedded = np.zeros((persons.shape[0], 128))
 for i, m in enumerate(persons):
     img = load_image(m.image_path())
     img = align_image(img)
-    # escala os valores RGB no intervalo [0,1]
-    img = (img / 255.).astype(np.float32)
-    # obter os vetores embedding por imagem
-    embedded[i] = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
-    # grava no vetor persons o seu embeddign vecor
-    m.embedded = embedded[i]
+    if img is None:
+        pass
+    else:
+        # escala os valores RGB no intervalo [0,1]
+        img = (img / 255.).astype(np.float32)
+        # obter os vetores embedding por imagem
+        embedded[i] = nn4_small2_pretrained.predict(np.expand_dims(img, axis=0))[0]
+        # grava no vetor persons o seu embeddign vecor
+        m.embedded = embedded[i]
+
+persons = [p for p in persons if p.embedded.any()]
+embedded = [p.embedded for p in persons]
 
 targets = np.array([p.name for p in persons])
 
