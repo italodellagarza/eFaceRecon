@@ -17,9 +17,24 @@ $ virtualenv -p python3 env
 ```
 $ source env/bin/activate
 ```
-Instale as dependências do pip:
+4. Instale as dependências do pip:
 ```
 $ pip install -r requirements.txt
+```
+
+5. Para tirar amostras de uma face:
+```
+$ python face_gatherer.py
+```
+
+6. Para treinar o modelo novamente:
+```
+$ python trainer.py
+```
+
+7. Para testar a detecção de faces:
+```
+$ python efacerecon.py
 ```
 
 Obs: pasta models não disponível. Para baixar o arquivo landmarks.dat entre em <http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2>.
