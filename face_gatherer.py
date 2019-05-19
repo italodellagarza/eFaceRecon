@@ -6,6 +6,7 @@ Adaptado de: <https://medium.com/mjrobot-org/real-time-face-recognition-an-end-t
 import cv2
 import os
 from time import sleep
+from image_align import align_image
 
 cam = cv2.VideoCapture(0)
 cam.set(3, 640) # set video width
@@ -29,18 +30,23 @@ while 1:
     ret, img = cam.read()
     img = cv2.flip(img, 1) # gire verticalmente a imagem do vídeo
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     faces = face_detector.detectMultiScale(gray, 1.3, 5)
     for (x,y,w,h) in faces:
-        cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)     
-        count += 1
-        # Salve a imagem capturada
-        cv2.imwrite("dataset/"+ face_id +"/" + face_id + '_' +  
-                    "{:04d}".format(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
+        if(align_image(rgb[y:y+h,x:x+w]) is None):
+            pass
+        else:
+            # Atualiza o contador     
+            count += 1
+            # Salve a imagem capturada
+            cv2.imwrite("dataset/"+ face_id +"/" + face_id + '_' +  
+                        "{:04d}".format(count) + ".jpg", rgb[y:y+h,x:x+w])
         cv2.imshow('image', img)
     k = cv2.waitKey(100) & 0xff # Pressione 'ESC' para sair do vídeo
     if k == 27:
         break
-    elif count >= 10: # Pegue 10 amostras da face e interrompa o vídeo
+    elif count >= 30: # Pegue 30 amostras da face e interrompa o vídeo
          break
 
 # Do a bit of cleanup

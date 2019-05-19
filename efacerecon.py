@@ -29,16 +29,15 @@ while 1:
     img = cv.flip(img, 1) # flip video image vertically
     # Converte a imagem para tons de cinza.
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     # Detecta se há alguma face no frame usando o detector já treinado
     # e retorna as bordas que delimitam essa face.
     faces = face_detector.detectMultiScale(gray, 1.3, 5)
     for (x,y,w,h) in faces:
+        # Desenha um retângulo em volta da imagem
         cv.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-        # Alinhar a imagem (gray[y:y+h,x:x+w])
-        cv.imwrite("image.jpg", gray[y:y+h,x:x+w])
-        aligned = cv.imread("image.jpg", 1)
-        aligned = aligned[...,::-1]
-        aligned = align_image(aligned)
+        # Alinha a imagem em formato RGB
+        aligned = align_image(rgb[y:y+h,x:x+w])
         if aligned is None:
             pass
         else:
@@ -51,7 +50,7 @@ while 1:
             m_weights = [p.embedded for p in persons if p.name==identity]
             distance = np.amin([np.sum(np.square(embedded - w)) for w in m_weights])
             # Se a distância for menor que 0.57 (distance threshold)
-            if(distance < 0.57):
+            if(distance < 0.65):
                  # Escrever o nome encontrado abaixo do retângulo
                 cv.putText(img, str(identity), (x+5,y-5), font, 1, (255,255,255), 2)
             else:
