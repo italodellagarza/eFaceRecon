@@ -50,9 +50,9 @@ while 1:
             m_weights = [p.embedded for p in persons if p.name==identity]
             distance = np.amin([np.sum(np.square(embedded - w)) for w in m_weights])
             # Se a distância for menor que 0.57 (distance threshold)
-            if(distance < 0.65):
+            if(distance < 0.57):
                  # Escrever o nome encontrado abaixo do retângulo
-                cv.putText(img, str(identity), (x+5,y-5), font, 1, (255,255,255), 2)
+                cv.putText(img, str(identity), (x+5,y-5), font, 1, (0,255,0), 2)
             else:
                 # Detectou um desconhecido
                 cv.putText(img, "desconhecido", (x+5,y-5), font, 1, (0,0,255), 2)
