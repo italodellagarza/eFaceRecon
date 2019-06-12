@@ -37,4 +37,9 @@ $ python trainer.py
 $ python efacerecon.py
 ```
 
+8. Teste disponível no arquivo `test.ipynb`. Para acessá-lo, execute o comando abaixo e, na página que abrir no seu navegador, clique no arquivo para abrí-lo. Para mais informações, consulte: <https://jupyter-notebook.readthedocs.io/en/stable/> 
+```
+$ jupyter notebook
+```
+
 Obs: pasta models não disponível. Para baixar o arquivo landmarks.dat entre em <http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2>.
