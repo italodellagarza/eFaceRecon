@@ -29,6 +29,16 @@ def load_persons(path):
             persons.append(Person(path, i, f))
     return np.array(persons)
 
+'''Função para treinar o conjunto de modelos e salvar'''
+def train_models_and_save(vectors, labels):
+    models = {}
+    models["svm"] = LinearSVC()
+    models["knn"] = None
+    for name,model in models.items():
+        model.fit(vectors, labels)
+        dump(model, 'models/'+ name +'.joblib')
+
+
 # Cria o modelo de rede neural Inception
 nn4_small2_pretrained = create_model()
 # Carrega os pesos para essa rede neural já treinada
@@ -62,11 +72,9 @@ encoder = LabelEncoder()
 encoder.fit(targets)
 y = encoder.transform(targets)
 
-# Treina o modelo SVM
-svc = LinearSVC()
-svc.fit(embedded, y)
+# Treina e salva os modelos de classificação
+train_models_and_save(embedded, y)
 
 # Salva os modelos
-dump(svc, 'saved_model.joblib')
 dump (encoder, 'saved_encoder.joblib')
 dump (persons, 'saved_persons.joblib')
