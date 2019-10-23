@@ -10,6 +10,19 @@ from image_align import align_image
 from model import create_model
 from person import Person
 
+# Função para encontrar o elemento mais comum de uma lista
+def most_common(list):
+    counter = 0
+    num = list[0]   
+    for i in list: 
+        curr_frequency = list.count(i) 
+        if(curr_frequency> counter): 
+            counter = curr_frequency 
+            num = i 
+    return num 
+  
+
+
 nn4_small2_pretrained = create_model()
 nn4_small2_pretrained.load_weights('./weights/nn4.small2.v1.h5')
 font = cv.FONT_HERSHEY_SIMPLEX
@@ -23,7 +36,8 @@ persons = load('saved_persons.joblib')
 cap = cv.VideoCapture(0)
 cap.set(3, 640) # set video width
 cap.set(4, 480) # set video height
-while 1:
+identities = [] # cria uma lista para armazenar as identificações
+while len(identities) < 30:
     # Faz uma captura do frame e armazena o retângulo e a imagem
     ret, img = cap.read()
     img = cv.flip(img, 1) # flip video image vertically
@@ -53,14 +67,23 @@ while 1:
             if(distance < 0.57):
                  # Escrever o nome encontrado abaixo do retângulo
                 cv.putText(img, str(identity), (x+5,y-5), font, 1, (0,255,0), 2)
+                identities.append(str(identity))
             else:
                 # Detectou um desconhecido
                 cv.putText(img, "desconhecido", (x+5,y-5), font, 1, (0,0,255), 2)
+                identities.append("desconhecido")
     # Mostra o frame capturado em uma janela.    
     cv.imshow('eFaceRecon - Deteccao de faces',img)
     # Espera a tecla ESC para fechar.
     k = cv.waitKey(30) & 0xff
     if k == 27:
         break
+
+com = most_common(identities)
+if(identities.count(com) >= 24):
+	print('identificado como ' + com)
+else:
+	print('não identificado')
+
 cap.release()
 cv.destroyAllWindows()
