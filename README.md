@@ -25,10 +25,9 @@ $ source env/bin/activate
 $ pip install -r requirements.txt
 ```
 
-5. Baixe os arquivos e crie as pastas necessárias com os comandos abaixo:
+5. Baixe o arquivo <https://drive.google.com/file/d/1dQSw-CA-BMtWWgp-EcXlA3_ZE_gw7LDa/view?usp=sharing>, grave-o na pasta do projeto e execute os comandos abaixo:
 
 ```
-$ wget <https://github.com/italodellagarza/eFaceRecon-files/raw/master/big_files.tar.gz>
 $ tar -zxvf big_files.tar.gz
 $ rm big_files.tar.gz
 $ mv models/shape_predictor_68_face_landmarks.dat models/landmarks.dat
