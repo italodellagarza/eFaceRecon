@@ -1,6 +1,8 @@
 # eFaceRecon
 Reconhecedor e classificador facial em tempo real com OpenCV, dlib e Deep Learning
 
+**versão do python**: 3.7 
+
 ### Execução
 
 1. Instale o cmake:
@@ -17,29 +19,39 @@ $ virtualenv -p python3 env
 ```
 $ source env/bin/activate
 ```
+
 4. Instale as dependências do pip:
 ```
 $ pip install -r requirements.txt
 ```
 
-5. Para tirar amostras de uma face:
+5. Baixe os arquivos e crie as pastas necessárias com os comandos abaixo:
+
+```
+$ wget <https://github.com/italodellagarza/eFaceRecon-files/raw/master/big_files.tar.gz>
+$ tar -zxvf big_files.tar.gz
+$ rm big_files.tar.gz
+$ mv models/shape_predictor_68_face_landmarks.dat models/landmarks.dat
+$ mv weights/facenet_weights.h5 weights/facenet.h5
+```
+
+6. Para tirar amostras de uma face:
 ```
 $ python face_gatherer.py
 ```
 
-6. Para treinar o modelo novamente:
+7. Para treinar o modelo novamente:
 ```
 $ python trainer.py
 ```
 
-7. Para testar a detecção de faces:
+8. Para testar a detecção de faces:
 ```
 $ python efacerecon.py
 ```
 
-8. Teste disponível no arquivo `test.ipynb`. Para acessá-lo, execute o comando abaixo e, na página que abrir no seu navegador, clique no arquivo para abrí-lo. Para mais informações, consulte: <https://jupyter-notebook.readthedocs.io/en/stable/> 
+9. Teste disponível no arquivo `test.ipynb`. Para acessá-lo, execute o comando abaixo e, na página que abrir no seu navegador, clique no arquivo para abrí-lo. Para mais informações, consulte: <https://jupyter-notebook.readthedocs.io/en/stable/> 
 ```
 $ jupyter notebook
 ```
 
-Obs: pasta models não disponível. Para baixar o arquivo landmarks.dat entre em <http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2>.
