@@ -28,10 +28,8 @@ $ pip install -r requirements.txt
 5. Baixe o arquivo <https://drive.google.com/file/d/1dQSw-CA-BMtWWgp-EcXlA3_ZE_gw7LDa/view?usp=sharing>, grave-o na pasta do projeto e execute os comandos abaixo:
 
 ```
-$ tar -zxvf big_files.tar.gz
-$ rm big_files.tar.gz
-$ mv models/shape_predictor_68_face_landmarks.dat models/landmarks.dat
-$ mv weights/facenet_weights.h5 weights/facenet.h5
+$ tar -zxvf arquivos_grandes.tar.gz
+$ rm arquivos_grandes.tar.gz
 ```
 
 6. Para tirar amostras de uma face:
@@ -46,7 +44,9 @@ $ python trainer.py
 
 8. Para testar a detecção de faces:
 ```
-$ python efacerecon.py
+$ python efacerecon.py <rede_neural> <classificador>
+Exemplo:
+$ python efacerecn.py nn4 knn
 ```
 
 9. Teste disponível no arquivo `test.ipynb`. Para acessá-lo, execute o comando abaixo e, na página que abrir no seu navegador, clique no arquivo para abrí-lo. Para mais informações, consulte: <https://jupyter-notebook.readthedocs.io/en/stable/> 

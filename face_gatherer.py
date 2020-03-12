@@ -32,9 +32,9 @@ while 1:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     faces = face_detector.detectMultiScale(gray, 1.3, 5)
-    for (x,y,w,h) in faces:
-        cv2.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
-        if(align_image(rgb[y:y+h,x:x+w]) is None):
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (x+w, y+h), (255,0,0), 2)
+        if align_image(rgb[y:y+h, x:x+w], 224) is None:
             pass
         else:
             # Atualiza o contador     

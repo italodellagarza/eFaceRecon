@@ -6,3 +6,6 @@ env
 weights
 weights/*
 env/*
+.idea
+.idea/*
+

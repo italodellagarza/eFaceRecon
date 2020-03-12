@@ -7,6 +7,6 @@ from align import AlignDlib
 
 alignment = AlignDlib('models/landmarks.dat')
 
-def align_image(img):
-    return alignment.align(96, img, alignment.getLargestFaceBoundingBox(img), 
+def align_image(img, dimension):
+    return alignment.align(dimension, img, alignment.getLargestFaceBoundingBox(img),
                            landmarkIndices=AlignDlib.OUTER_EYES_AND_NOSE)
