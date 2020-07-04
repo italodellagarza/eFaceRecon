@@ -1,7 +1,7 @@
 # eFaceRecon
 Reconhecedor e classificador facial em tempo real com OpenCV, dlib e Deep Learning
 
-**versão do python**: 3.7 
+**versão do python**: 3.7 e 3.7-dev
 
 ### Execução
 
