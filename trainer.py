@@ -9,6 +9,7 @@ from vgg_face import create_model as create_vgg
 
 import numpy as np
 import os
+import sys
 from joblib import dump
 from person import Person
 from image_align import align_image
@@ -56,7 +57,7 @@ facenet.load_weights('weights/facenet.h5')
 vgg_face.load_weights('weights/vgg_face_weights.h5')
 
 # carrega as pessoas (faces) registradas no dataset
-persons = load_persons("dataset")
+persons = load_persons("dataset/registrado")
 
 # calcula os embedding vectors utilizando as redes pré-treinadas
 embedded_nn4 = np.zeros((persons.shape[0], 128))
@@ -65,9 +66,9 @@ embedded_facenet = np.zeros((persons.shape[0], 128))
 
 for i, m in enumerate(persons):
     img = load_image(m.image_path())
-    img1 = align_image(img, 96)
-    img2 = align_image(img, 160)
-    img3 = align_image(img, 224)
+    img1 = cv.resize(img, (96, 96))
+    img2 = cv.resize(img, (160, 160))
+    img3 = img
     if img1 is None or img2 is None or img3 is None:
         pass
     else:
@@ -90,7 +91,13 @@ embedded_nn4 = [p.embedded_nn4 for p in persons]
 embedded_vgg = [p.embedded_vgg for p in persons]
 embedded_facenet = [p.embedded_facenet for p in persons]
 
+
 targets = np.array([p.name for p in persons])
+
+
+# Quando tiver somente uma pessoa registrada, não se treina os modelos.
+if(len(list(set(targets))) == 1):
+    sys.exit(0)
 
 # Transforma os nomes das pessoas em números
 encoder = LabelEncoder()

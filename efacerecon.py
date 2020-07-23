@@ -11,6 +11,7 @@ from image_align import align_image
 from nn4_small2_v1 import create_model as create_nn4
 from facenet import InceptionResNetV1 as create_facenet
 from vgg_face import create_model as create_vgg
+import dlib
 
 # Função para encontrar o elemento mais comum de uma lista
 def most_common(list):
@@ -61,6 +62,9 @@ def main(argv):
     else:
         print("ERRO!\nDigite da seguinte forma:\n python efacerecon.py <rede> <classificador>\n")
         sys.exit(-1)
+
+    # TODO adaptar para rodar no caso de somente uma classe
+
     if argv[1] == "svm":
         classifier = load("./models/svm_" + argv[0] + ".joblib")
     elif argv[1] == "knn":
@@ -94,7 +98,7 @@ def main(argv):
             # Desenha um retângulo em volta da imagem
             cv.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
             # Alinha a imagem em formato RGB
-            aligned = align_image(rgb[y:y+h,x:x+w], size)
+            aligned = align_image(rgb[y:y+h,x:x+w], dlib.rectangle(x,y,x+w,y+h), size)
             if aligned is None:
                 pass
             else:
