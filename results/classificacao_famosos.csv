@@ -5,15 +5,18 @@ NN4 Small 1;Árvore de Decisão;57,50;61,17;51,67;56,52
 NN4 Small 1;Random Forest;90,00;94,00;88,71;86,96
 NN4 Small 1;Adaboost;45,83;56,83;49,33;56,52
 NN4 Small 1;Naive Bayes;94,67;94,67;93,78;91,30
+NN4 Small 1;Gradient Boosting;89,67;92,67;89,06;86,96
 Inception Resnet V1;KNN;87,50;89,00;84,29;82,61
 Inception Resnet V1;SVM;95,00;96,00;94,17;91,30
 Inception Resnet V1;Árvore de Decisão;64,33;63,17;59,57;56,52
 Inception Resnet V1;Random Forest;85,00;89,00;83,71;82,61
 Inception Resnet V1;Adaboost;86,67;91,50;85,29;82,61
 Inception Resnet V1;Naive Bayes;85,67;82,33;77,76;73,91
+Inception Resnet V1;Gradient Boosting;70,83;76,50;67,52;73,91
 VGG Faces;KNN;94,67;96,00;94,39;91,30
 VGG Faces;SVM;0,43;10,00;0,83;4,35
 VGG Faces;Árvore de Decisão;52,50;57,00;48,24;52,17
 VGG Faces;Random Forest;90,00;94,00;89,05;86,96
 VGG Faces;Adaboost;64,17;66,50;58,88;65,22
 VGG Faces;Naive Bayes;78,33;86,00;80,17;86,96
+VGG Faces;Gradient Boosting;64,33;67,00;57,17;65,22
