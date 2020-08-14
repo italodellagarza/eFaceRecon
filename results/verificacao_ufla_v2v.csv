@@ -1,0 +1,19 @@
+RNC;Cálculo da distância;Limítrofe;Precisão (%);Revocação (%);Medida-F (%);Percentual de acertos
+NN4 Small 1;Euclideana;0.83;75,00;83,33;73,33;75,00
+NN4 Small 1;Euclideana;0.87;100,00;100,00;100,00;100,00
+NN4 Small 1;Euclideana;0.89;100,00;100,00;100,00;100,00
+NN4 Small 1;Cosseno;0.305;75,00;83,33;73,33;75,00
+NN4 Small 1;Cosseno;0.355;75,00;83,33;73,33;75,00
+NN4 Small 1;Cosseno;0.405;100,00;100,00;100,00;100,00
+Inception Resnet V1;Euclideana;1.0;100,00;100,00;100,00;100,00
+Inception Resnet V1;Euclideana;1.05;100,00;100,00;100,00;100,00
+Inception Resnet V1;Euclideana;1.1;100,00;100,00;100,00;100,00
+Inception Resnet V1;Cosseno;0.4;75,00;83,33;73,33;75,00
+Inception Resnet V1;Cosseno;0.5;100,00;100,00;100,00;100,00
+Inception Resnet V1;Cosseno;0.6;100,00;100,00;100,00;100,00
+VGG Faces;Euclideana;0.00028;75,00;83,33;73,33;75,00
+VGG Faces;Euclideana;0.00029;75,00;83,33;73,33;75,00
+VGG Faces;Euclideana;0.0003;75,00;83,33;73,33;75,00
+VGG Faces;Cosseno;0.0001;75,00;83,33;73,33;75,00
+VGG Faces;Cosseno;0.000105;75,00;83,33;73,33;75,00
+VGG Faces;Cosseno;0.00011;75,00;83,33;73,33;75,00

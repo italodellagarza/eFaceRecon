@@ -8,4 +8,6 @@ weights/*
 env/*
 .idea
 .idea/*
+dataset/ufla/*
+dataset/ufla
 

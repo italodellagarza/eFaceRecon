@@ -1,0 +1,19 @@
+RNC;Classificador;Precisão (%);Revocação (%);Medida-F (%);Percentual de acertos
+NN4 Small 1;KNN;62,50;75,00;66,67;75,00
+NN4 Small 1;SVM;100,00;100,00;100,00;100,00
+NN4 Small 1;Árvore de Decisão;62,50;75,00;66,67;75,00
+NN4 Small 1;Random Forest;62,50;75,00;66,67;75,00
+NN4 Small 1;Adaboost;62,50;75,00;66,67;75,00
+NN4 Small 1;Naive Bayes;62,50;75,00;66,67;75,00
+Inception Resnet V1;KNN;37,50;50,00;41,67;50,00
+Inception Resnet V1;SVM;62,50;75,00;66,67;75,00
+Inception Resnet V1;Árvore de Decisão;62,50;75,00;66,67;75,00
+Inception Resnet V1;Random Forest;100,00;100,00;100,00;100,00
+Inception Resnet V1;Adaboost;100,00;100,00;100,00;100,00
+Inception Resnet V1;Naive Bayes;62,50;75,00;66,67;75,00
+VGG Faces;KNN;100,00;100,00;100,00;100,00
+VGG Faces;SVM;6,25;25,00;10,00;25,00
+VGG Faces;Árvore de Decisão;100,00;100,00;100,00;100,00
+VGG Faces;Random Forest;100,00;100,00;100,00;100,00
+VGG Faces;Adaboost;100,00;100,00;100,00;100,00
+VGG Faces;Naive Bayes;100,00;100,00;100,00;100,00
