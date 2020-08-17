@@ -10,4 +10,6 @@ env/*
 .idea/*
 dataset/ufla/*
 dataset/ufla
+dataset/registrado
+dataset/registrado/*
 

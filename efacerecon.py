@@ -11,6 +11,8 @@ from image_align import align_image
 from nn4_small2_v1 import create_model as create_nn4
 from facenet import InceptionResNetV1 as create_facenet
 from vgg_face import create_model as create_vgg
+import time
+
 import dlib
 
 from ler_configuracao import ler_configuracao
@@ -56,6 +58,7 @@ def main(argv):
     global classificador
     global limitrofe
     size = get_size()
+    
 
     font = cv.FONT_HERSHEY_SIMPLEX
     # Carrega o detector de faces Haar Cascade
@@ -68,12 +71,15 @@ def main(argv):
     one_person = False
     if len(list(set([p.name for p in persons]))) == 1:
         one_person = True
+    else:
+        classificador = load('models/model.joblib')
         encoder = load('saved_encoder.joblib')
 
     cap = cv.VideoCapture(0)
     cap.set(3, 640) # set video width
     cap.set(4, 480) # set video height
     identities = [] # cria uma lista para armazenar as identificações
+    time_begin = time.time()
     while len(identities) < 30:
         # Faz uma captura do frame e armazena o retângulo e a imagem
         ret, img = cap.read()
@@ -98,7 +104,7 @@ def main(argv):
                 
                 if not one_person:
                     # Classificar e extrair o nome da pessoa
-                    prediction = classificador.predict([embedded])
+                    prediction = classificador.predict([embedded]).astype(np.int)
                     identity = encoder.inverse_transform(prediction)[0]
                 else:
                     identity = persons[0].name
@@ -121,7 +127,8 @@ def main(argv):
         k = cv.waitKey(30) & 0xff
         if k == 27:
             break
-
+    time_end = time.time()
+    print("Tempo de reconhecimento = " + str(time_end - time_begin) + "s")
     com = most_common(identities)
     if(identities.count(com) >= 24):
         print('identificado como ' + com)
