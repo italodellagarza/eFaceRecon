@@ -84,7 +84,8 @@ for i, m in enumerate(persons):
         # grava no vetor persons o seu embeddign vecor
         m.set_embedded(neural_net_str, embedded[i])
 
-targets = np.array([p.name for p in persons])
+targets = np.array([p.name for p in persons if p.load_embedded(neural_net_str).any()])
+embedded = np.array([p.load_embedded(neural_net_str) for p in persons if p.load_embedded(neural_net_str).any()])
 
 # Salva as pessoas registradas
 dump(persons, 'saved_persons.joblib')

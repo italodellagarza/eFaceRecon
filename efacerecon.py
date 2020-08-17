@@ -49,8 +49,11 @@ def rgb_norm(img):
 def normalization(emb_vector):
     global neural_net_str
     if(neural_net_str == "facenet"):
-        return emb_vector / np.sqrt(np.sum(np.multiply(emb_vector, emb_vector)))
-    return emb_vector
+        return emb_vector[0,:] / np.sqrt(np.sum(np.multiply(emb_vector[0,:], emb_vector[0,:])))
+    elif neural_net_str == 'nn4':
+        return emb_vector[0]
+    else:
+        return emb_vector[0,:]
 
 def main(argv):
     global neural_net
@@ -94,17 +97,17 @@ def main(argv):
             # Desenha um retângulo em volta da imagem
             cv.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
             # Alinha a imagem em formato RGB
-            aligned = align_image(rgb[y:y+h,x:x+w], dlib.rectangle(x,y,x+w,y+h), size)
+            aligned = align_image(rgb, dlib.rectangle(x,y,x+w,y+h), size)
             if aligned is None:
                 pass
             else:
                 aligned = rgb_norm(aligned)
                 # Extrair as features
-                embedded = normalization(neural_net.predict(np.expand_dims(aligned, axis=0))[0])
+                embedded = normalization(neural_net.predict(np.expand_dims(aligned, axis=0)))
                 
                 if not one_person:
                     # Classificar e extrair o nome da pessoa
-                    prediction = classificador.predict([embedded]).astype(np.int)
+                    prediction = classificador.predict([embedded])
                     identity = encoder.inverse_transform(prediction)[0]
                 else:
                     identity = persons[0].name
@@ -138,7 +141,6 @@ def main(argv):
     cap.release()
     cv.destroyAllWindows()
 
-# TODO testar com mais de uma pessoa registrada
 
 if __name__=="__main__":
     main(sys.argv[1:])

@@ -12,4 +12,5 @@ dataset/ufla/*
 dataset/ufla
 dataset/registrado
 dataset/registrado/*
-
+saved_persons.joblib
+saved_encoder.joblib
