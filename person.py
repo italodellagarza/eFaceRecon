@@ -25,3 +25,10 @@ class Person:
         if neural_network == "nn4": return self.embedded_nn4
         elif neural_network == "facenet": return self.embedded_facenet
         return self.embedded_vgg
+    def set_embedded(self, neural_network, value):
+        if neural_network == "nn4":
+            self.embedded_nn4 = value
+        elif neural_network == "facenet":
+            self.embedded_facenet = value
+        else:
+            self.embedded_vgg = value

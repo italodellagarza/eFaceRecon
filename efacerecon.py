@@ -13,6 +13,11 @@ from facenet import InceptionResNetV1 as create_facenet
 from vgg_face import create_model as create_vgg
 import dlib
 
+from ler_configuracao import ler_configuracao
+
+
+neural_net, neural_net_str, classificador, limitrofe, dist = ler_configuracao()
+
 # Função para encontrar o elemento mais comum de uma lista
 def most_common(list):
     counter = 0
@@ -24,61 +29,46 @@ def most_common(list):
             num = i 
     return num 
 
+def get_size():
+    if neural_net_str == "nn4":
+        return 96
+    elif neural_net_str == "facenet":
+        return 160
+    else:
+        return 224
 
-def rgb_to_0_1(img):
-    return (img/ 255.).astype(np.float32)
 
+def rgb_norm(img):
+    if neural_net_str == "nn4":
+        return (img/ 255.).astype(np.float32)
+    else:
+        return ((img / 127.5) - 1.).astype(np.float32)
 
-def rgb_to_1_1(img):
-    return ((img / 127.5) - 1.).astype(np.float32)
-
-def normalization(neural_network, emb_vector):
-    if(neural_network == "facenet"):
+def normalization(emb_vector):
+    global neural_net_str
+    if(neural_net_str == "facenet"):
         return emb_vector / np.sqrt(np.sum(np.multiply(emb_vector, emb_vector)))
     return emb_vector
 
 def main(argv):
-
-    # Carrega a rede neural e o modelo desejados
-    neural_network = None
-    classifier = None
-    rgb_norm = None
-    size = 0
-    if argv[0] == "nn4":
-        neural_network = create_nn4()
-        neural_network.load_weights('./weights/nn4.small2.v1.h5')
-        size = 96
-        rgb_norm = rgb_to_0_1
-    elif argv[0] == "facenet":
-        neural_network = create_facenet()
-        neural_network.load_weights('./weights/facenet.h5')
-        size = 160
-        rgb_norm = rgb_to_1_1
-    elif argv[0] == "vgg":
-        neural_network = create_vgg()
-        neural_network.load_weights('./weights/vgg_face_weights.h5')
-        size = 224
-        rgb_norm = rgb_to_1_1
-    else:
-        print("ERRO!\nDigite da seguinte forma:\n python efacerecon.py <rede> <classificador>\n")
-        sys.exit(-1)
-
-    # TODO adaptar para rodar no caso de somente uma classe
-
-    if argv[1] == "svm":
-        classifier = load("./models/svm_" + argv[0] + ".joblib")
-    elif argv[1] == "knn":
-        classifier = load("./models/knn_" + argv[0] + ".joblib")
-    else:
-        print("ERRO!\nDigite da seguinte forma:\n python efacerecon.py <rede> <classificador>\n")
-        sys.exit(-1)
+    global neural_net
+    global neural_net_str
+    global classificador
+    global limitrofe
+    size = get_size()
 
     font = cv.FONT_HERSHEY_SIMPLEX
     # Carrega o detector de faces Haar Cascade
     face_detector = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
     # Carrega o modelo pronto
-    encoder = load('saved_encoder.joblib')
+    encoder = None
     persons = load('saved_persons.joblib')
+
+    # Verifica se há somente uma pessoa registrada
+    one_person = False
+    if len(list(set([p.name for p in persons]))) == 1:
+        one_person = True
+        encoder = load('saved_encoder.joblib')
 
     cap = cv.VideoCapture(0)
     cap.set(3, 640) # set video width
@@ -104,14 +94,20 @@ def main(argv):
             else:
                 aligned = rgb_norm(aligned)
                 # Extrair as features
-                embedded = normalization(argv[0], neural_network.predict(np.expand_dims(aligned, axis=0))[0])
-                # Classificar e extrair o nome da pessoa
-                prediction = classifier.predict([embedded])
-                identity = encoder.inverse_transform(prediction)[0]
-                m_weights = [p.load_embedded(argv[0]) for p in persons if p.name==identity]
-                distance = np.amin([np.sum(np.square(embedded - w)) for w in m_weights])
+                embedded = normalization(neural_net.predict(np.expand_dims(aligned, axis=0))[0])
+                
+                if not one_person:
+                    # Classificar e extrair o nome da pessoa
+                    prediction = classificador.predict([embedded])
+                    identity = encoder.inverse_transform(prediction)[0]
+                else:
+                    identity = persons[0].name
+                
+                
+                m_weights = [p.load_embedded(neural_net_str) for p in persons if p.name==identity]
+                distance = np.amin([dist(embedded, w) for w in m_weights])
                 # Se a distância for menor que 0.57 (distance threshold)
-                if(distance < 0.57):
+                if(distance < limitrofe):
                      # Escrever o nome encontrado abaixo do retângulo
                     cv.putText(img, str(identity), (x+5,y-5), font, 1, (0,255,0), 2)
                     identities.append(str(identity))
@@ -135,6 +131,7 @@ def main(argv):
     cap.release()
     cv.destroyAllWindows()
 
+# TODO testar com mais de uma pessoa registrada
 
 if __name__=="__main__":
     main(sys.argv[1:])
