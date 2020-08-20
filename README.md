@@ -55,4 +55,4 @@ Teste disponível no arquivo `test.ipynb`. Para acessá-lo, execute o comando ab
 ```
 $ jupyter notebook
 ```
-
+OBSERVAÇÃO: O programa somente executa corretamente com uma ou mais pessoas registradas na base.
