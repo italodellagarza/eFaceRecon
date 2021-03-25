@@ -126,7 +126,7 @@ python-dev-tools==2019.10.7
 pytoml==0.1.21
 pytz==2020.1
 pyupgrade==1.24.0
-PyYAML==5.3.1
+PyYAML==5.4
 pyzmq==19.0.1
 qtconsole==4.7.4
 QtPy==1.9.0
