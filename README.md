@@ -4,7 +4,7 @@ Reconhecedor e classificador facial em tempo real com OpenCV, dlib e Deep Learni
 [![Python Version](https://img.shields.io/badge/python-3.7.8-green)](https://www.python.org/downloads/release/python-378/)
 [![CMake Version](https://img.shields.io/badge/cmake-3.16.3-green)](https://cmake.org/cmake/help/v3.16/release/3.16.html)
 
-Este programa é parte do Trabalho de Conclusão de Curso disponível para dowload em: http://repositorio.ufla.br/jspui/handle/1/44811
+~~Este programa é parte do Trabalho de Conclusão de Curso disponível para dowload em: http://repositorio.ufla.br/jspui/handle/1/44811~~
 
 ### Execução
 
